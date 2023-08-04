@@ -106,7 +106,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'ADD-TODOLIST': {
             return {
                 ...state,
-                [action.todolistId]: []
+                [action.todolist.id]: []
             }
         }
         case 'REMOVE-TODOLIST': {
@@ -160,9 +160,9 @@ export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispa
 }
 
 export const updateTaskStatusTC = (todolistId: string, taskId: string, status: TaskStatuses) => (dispatch: Dispatch, getState: ()=> AppRootStateType) => {
-const task = getState().tasks[todolistId].find((t) => t.id === taskId)
+const task = getState().tasks[todolistId].find((t) => t.id === taskId)// нашли такску по ключу
     if (task) {
-        const model: UpdateTaskModelType = {
+        const model: UpdateTaskModelType = { //создали объект с моделью
             title: task.title,
             description: task.description,
             deadline: task.deadline,
@@ -170,9 +170,9 @@ const task = getState().tasks[todolistId].find((t) => t.id === taskId)
             startDate: task.startDate,
             status
         }
-        todolistsAPI.updateTask(todolistId, taskId, model)
+        todolistsAPI.updateTask(todolistId, taskId, model) // передаем request payload пар-ры в виде модели бэкенду, а также todolistId, taskId для url  пар-ов
             .then((res) => {
-                dispatch(changeTaskStatusAC(taskId,status, todolistId ))
+                dispatch(changeTaskStatusAC(taskId,status, todolistId )) //дожидаемся ответа от сервера и диспатчим ответ в экшн криэйтор
             })
     }
 }

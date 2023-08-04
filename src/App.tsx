@@ -17,7 +17,7 @@ import {
     changeTodolistTitleAC,
     FilterValuesType,
     removeTodolistAC,
-    TodolistDomainType, getTodoTC
+    TodolistDomainType, getTodoTC, addTodolistTC, deleteTodolistTC
 } from './state/todolists-reducer'
 import {
     addTaskAC, addTaskTC,
@@ -70,8 +70,7 @@ function App() {
     }, []);
 
     const removeTodolist = useCallback(function (id: string) {
-        const action = removeTodolistAC(id);
-        dispatch(action);
+       dispatch(deleteTodolistTC(id));
     }, []);
 
     const changeTodolistTitle = useCallback(function (id: string, title: string) {
@@ -80,8 +79,7 @@ function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title);
-        dispatch(action);
+        dispatch(addTodolistTC(title))
     }, [dispatch]);
 
     return (
@@ -104,8 +102,6 @@ function App() {
                 <Grid container spacing={3}>
                     {
                         todolists.map(tl => {
-
-
                             let allTodolistTasks = tasks[tl.id];
                             // console.log(tasks)
 
